@@ -1,0 +1,343 @@
+MATCH (n:Intersection)
+RETURN n.id AS id, COUNT { (n)--() } AS degree;
+
+MATCH (n:Intersection)
+RETURN count(n) AS intersections;
+
+MATCH (i:Intersection)
+
+WITH
+CASE
+WHEN COUNT{(i)--()} <= 2 THEN "Low"
+WHEN COUNT{(i)--()} <= 4 THEN "Medium"
+ELSE "High"
+END AS Category
+
+RETURN Category,
+count(*) AS Count;
+
+MATCH (i:Intersection)
+
+WITH i, COUNT{(i)--()} AS degree
+
+RETURN
+i.id AS Intersection,
+degree
+
+ORDER BY degree DESC
+
+LIMIT 10;
+
+MATCH (i:Intersection)
+RETURN COUNT{(i)--()} AS degree;
+
+MATCH (start:Intersection {id:0}),
+(end:Intersection {id:1000})
+
+
+MATCH p = shortestPath((start)-[:ROAD*]-(end))
+RETURN p;
+
+MATCH (start:Intersection {id:0}),
+(end:Intersection {id:1000})
+
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH p=()-[:ROAD]->() RETURN p;
+
+MATCH p=()-[:ROAD]->() RETURN p;
+
+MATCH (start:Intersection {id:1554}),
+(end:Intersection {id:14332})
+
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH p=()-[]->() RETURN p LIMIT 25;
+
+MATCH (n) 
+WHERE n.visualisation IS NOT NULL
+RETURN DISTINCT "node" as entity, n.visualisation AS visualisation LIMIT 25
+UNION ALL 
+MATCH ()-[r]-() 
+WHERE r.visualisation IS NOT NULL
+RETURN DISTINCT "relationship" AS entity, r.visualisation AS visualisation LIMIT 25;
+
+MATCH p=()-[:ROAD]->() RETURN p LIMIT 25;
+
+MATCH (start:Intersection {id:1554}),
+(end:Intersection {id:14332})
+
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH (start:Intersection {id:1554}),
+(end:Intersection {id:1532})
+
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH (start:Intersection {id:1369}),
+(end:Intersection {id:1374})
+
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH (start:Intersection {id:547}),
+(end:Intersection {id:542})
+
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH ()-[r:ROAD]-()
+RETURN count(r);
+
+MATCH ()-[r:ROAD]->()
+RETURN count(r);
+
+CALL gds.betweenness.stream('roadNetwork')
+YIELD nodeId, score
+
+RETURN
+gds.util.asNode(nodeId).id AS Intersection,
+score
+
+ORDER BY score DESC
+LIMIT 20;
+
+MATCH (i:Intersection)
+WITH i, COUNT{(i)--()} AS degree
+WHERE degree > 3
+RETURN i.id, degree
+ORDER BY degree DESC;
+
+CALL gds.graph.list();
+
+CALL gds.graph.list();
+
+CALL gds.shortestPath.dijkstra.stream(
+'roadNetwork',
+{
+ sourceNode: 1374,
+ targetNode: 1409
+})
+YIELD totalCost,nodeIds
+RETURN totalCost,nodeIds;
+
+CALL gds.shortestPath.dijkstra.stream(
+'roadNetwork',
+{
+ sourceNode: 1374,
+ targetNode: 1409
+})
+YIELD totalCost,nodeIds
+RETURN totalCost,nodeIds;
+
+CALL gds.shortestPath.dijkstra.stream(
+'roadNetwork',
+{
+ sourceNode: 1374,
+ targetNode: 1398
+})
+YIELD totalCost,nodeIds
+RETURN totalCost,nodeIds;
+
+CALL gds.shortestPath.dijkstra.stream(
+'roadNetwork',
+{
+ sourceNode: 1374,
+ targetNode: 1428
+})
+YIELD totalCost,nodeIds
+RETURN totalCost,nodeIds;
+
+CALL gds.shortestPath.dijkstra.stream(
+'roadNetwork',
+{
+ sourceNode: 100,
+ targetNode: 5000
+})
+YIELD totalCost,nodeIds
+RETURN totalCost,nodeIds;
+
+CALL gds.graph.project(
+'roadNetwork',
+'Intersection',
+'ROAD'
+);
+
+RETURN gds.version();
+
+MATCH (start:Intersection {id:1374}),
+      (end:Intersection {id:1398})
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH (start:Intersection {id:1398}),
+      (end:Intersection {id:1409})
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH (start:Intersection {id:1290}),
+      (end:Intersection {id:1409})
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH (start:Intersection {id:1290}),
+      (end:Intersection {id:1483})
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH (start:Intersection {id:683}),
+      (end:Intersection {id:712})
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH (start:Intersection {id:100}),
+      (end:Intersection {id:5000})
+
+MATCH p = shortestPath((start)-[:ROAD*]->(end))
+RETURN p;
+
+MATCH (start:Intersection {id:100}),
+      (end:Intersection {id:5000})
+
+MATCH p = shortestPath((start)-[:ROAD*]-(end))
+RETURN p;
+
+MATCH (n:Intersection)
+WITH count(n) AS total_intersections
+MATCH ()-[r:ROAD]->()
+RETURN total_intersections, count(r) AS total_roads;
+
+MATCH (n:Intersection)
+WITH count(n) AS total_intersections
+MATCH ()-[r:ROAD]->()
+RETURN total_intersections, count(r) AS total_roads;
+
+MATCH (n:Intersection)
+WITH count(n) AS total_intersections
+MATCH ()-[r:ROAD]-()
+RETURN total_intersections, count(r) AS total_roads;
+
+MATCH (n:Intersection)
+WITH count(n) AS total_intersections
+MATCH ()-[r:ROAD]->()
+RETURN total_intersections, count(r) AS total_roads;
+
+MATCH (n:Intersection)
+WITH count(n) AS total_intersections
+MATCH ()-[r:ROAD]->()
+RETURN total_intersections, count(r)/2 AS total_roads;
+
+MATCH p=()-[:ROAD]->() RETURN p LIMIT 25;
+
+MATCH ()-[r:ROAD]-()
+RETURN count(r) AS TotalRoads;
+
+MATCH (i:Intersection)
+RETURN count(i) AS TotalIntersections;
+
+MATCH (n) 
+WHERE n.visualisation IS NOT NULL
+RETURN DISTINCT "node" as entity, n.visualisation AS visualisation LIMIT 25
+UNION ALL 
+MATCH ()-[r]-() 
+WHERE r.visualisation IS NOT NULL
+RETURN DISTINCT "relationship" AS entity, r.visualisation AS visualisation LIMIT 25;
+
+MATCH (n) 
+WHERE n.style IS NOT NULL
+RETURN DISTINCT "node" as entity, n.style AS style LIMIT 25
+UNION ALL 
+MATCH ()-[r]-() 
+WHERE r.style IS NOT NULL
+RETURN DISTINCT "relationship" AS entity, r.style AS style LIMIT 25;
+
+MATCH (n) 
+WHERE n.relationships IS NOT NULL
+RETURN DISTINCT "node" as entity, n.relationships AS relationships LIMIT 25
+UNION ALL 
+MATCH ()-[r]-() 
+WHERE r.relationships IS NOT NULL
+RETURN DISTINCT "relationship" AS entity, r.relationships AS relationships LIMIT 25;
+
+MATCH (n) 
+WHERE n.nodes IS NOT NULL
+RETURN DISTINCT "node" as entity, n.nodes AS nodes LIMIT 25
+UNION ALL 
+MATCH ()-[r]-() 
+WHERE r.nodes IS NOT NULL
+RETURN DISTINCT "relationship" AS entity, r.nodes AS nodes LIMIT 25;
+
+MATCH (n) 
+WHERE n.name IS NOT NULL
+RETURN DISTINCT "node" as entity, n.name AS name LIMIT 25
+UNION ALL 
+MATCH ()-[r]-() 
+WHERE r.name IS NOT NULL
+RETURN DISTINCT "relationship" AS entity, r.name AS name LIMIT 25;
+
+MATCH (n) 
+WHERE n.id IS NOT NULL
+RETURN DISTINCT "node" as entity, n.id AS id LIMIT 25
+UNION ALL 
+MATCH ()-[r]-() 
+WHERE r.id IS NOT NULL
+RETURN DISTINCT "relationship" AS entity, r.id AS id LIMIT 25;
+
+MATCH (n) 
+WHERE n.data IS NOT NULL
+RETURN DISTINCT "node" as entity, n.data AS data LIMIT 25
+UNION ALL 
+MATCH ()-[r]-() 
+WHERE r.data IS NOT NULL
+RETURN DISTINCT "relationship" AS entity, r.data AS data LIMIT 25;
+
+MATCH (n:Intersection) RETURN n LIMIT 25;
+
+MATCH p=()-[:ROAD]->() RETURN p LIMIT 25;
+
+MATCH ()-[r:ROAD]-()
+RETURN count(r);
+
+MATCH ()-[r:ROAD]-()
+RETURN count(r);
+
+LOAD CSV WITH HEADERS
+FROM 'file:///roads.csv' AS row
+
+MATCH (a:Intersection {id: toInteger(row.source)})
+MATCH (b:Intersection {id: toInteger(row.target)})
+
+CREATE (a)-[:ROAD]->(b);
+
+MATCH (n:Intersection)
+RETURN count(n);
+
+LOAD CSV WITH HEADERS
+FROM 'file:///intersections.csv' AS row
+
+CREATE (:Intersection {
+    id: toInteger(row.id),
+    x: toInteger(row.x),
+    y: toInteger(row.y)
+});
+
+LOAD CSV WITH HEADERS
+FROM 'file:///intersections.csv'
+AS row
+RETURN row
+LIMIT 5;
