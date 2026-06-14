@@ -7,24 +7,22 @@ INPUT_FILE = "usa.txt"
 with open(INPUT_FILE, "r") as f:
     lines = [line.strip() for line in f if line.strip()]
 
-# First line contains counts
+# First line part is counts
 num_nodes, num_edges = map(int, lines[0].split())
 
 print(f"Nodes: {num_nodes}")
 print(f"Edges: {num_edges}")
 
-# Node section
+# Node part
 node_lines = lines[1 : num_nodes + 1]
 
-# Edge section
+# Edge(Relationships) part
 edge_lines = lines[num_nodes + 1 :]
 
-print(f"Found node records: {len(node_lines)}")
-print(f"Found edge records: {len(edge_lines)}")
+print(f"Node records: {len(node_lines)}")
+print(f"Relationships records: {len(edge_lines)}")
 
-# -----------------------
 # intersections.csv
-# -----------------------
 with open("intersections.csv", "w", newline="") as f:
     writer = csv.writer(f)
 
@@ -34,9 +32,7 @@ with open("intersections.csv", "w", newline="") as f:
         node_id, x, y = line.split()
         writer.writerow([node_id, x, y])
 
-# -----------------------
 # roads.csv
-# -----------------------
 with open("roads.csv", "w", newline="") as f:
     writer = csv.writer(f)
 
